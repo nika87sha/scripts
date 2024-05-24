@@ -1,7 +1,7 @@
 #!/bin/bash
-source_dir="/ruta/fuente"
-backup_dir="/ruta/copia_de_seguridad"
+source_dir="$HOME/Pictures"
+backup_dir="$HOME/Drive"
 
 timestamp=$(date +%Y%m%d%H%M%S)
 backup_file="backup_$timestamp.tar.gz"
-tar -czvf "backup_dir/$backup_file" "source_dir"
+tar -cvzpf $backup_dir/$backup_file $source_dir
