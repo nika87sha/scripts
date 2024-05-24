@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 #title          create-users.sh
 #description    Script para añadir un nuevo usuario a la lilsta de superuser
 #author         Verónica Durán
@@ -10,11 +9,11 @@
 
 # Crear un usuario
 
-user=newuser
-password=newpassword
+user=nika
+password=nika989898
 
 useradd -m $user
 echo "$user:$password" | chpasswd
 
 # Agregar el grupo sudo
-usermod -aG sudo $user
+usermod -aG docker $user
