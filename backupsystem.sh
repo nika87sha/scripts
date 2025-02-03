@@ -31,10 +31,10 @@ echo-n "Primer chroot des d'un LiveCD. Esteu a punt de fer còpies de seguretat?
 llegir executeback
 
 # Comprovar si excloure el fitxer ja existeix
-if [ ! -f $exclude_file ]; then
+if [ ! -f "$exclude_file" ]; then
  echo-n "No exclou el fitxer existeix, continuar? (y/n): "
  llegir continuar
- if [ $continue == "n" ]; then exit; fi
+ if [ "$continue" == "n" ]; then exit; fi
 fi
 
 if [ $executeback = "y" ]; then
