@@ -11,6 +11,12 @@ for repo in "$DIR_REPOS"/*/; do
       echo "Actualizando $(basename "$repo")" # 'basename' solo muestra el nombre de la carpeta
       git pull # ejecutamos el comando git
     fi
+
+    if [ $? -eq 0 ]; then
+      echo "✅ $(basename "$DIR_REPOS"): Actualización completada"
+    else
+      echo " $(basename "$DIR_REPOS"): ERROR al hacer pull. Revisa tu trabajo local"
+    fi
     # Volvemos al directorio raiz para ejecutar la siguiente iteración
     cd "$DIR_REPOS"
   fi
