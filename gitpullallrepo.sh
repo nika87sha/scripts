@@ -1,23 +1,37 @@
 #!/bin/bash
-DIR_REPOS="$HOME/Projects" # Ruta proyectos
+# =====================================================================
+# 🌀 Actualizador de repositorios Git (recursivo)
+# Busca todos los repos dentro de una carpeta y ejecuta git pull
+# =====================================================================
 
-for repo in "$DIR_REPOS"/*/; do
-  # Comprobar que sea un directorio
-  if [ -d "$repo" ]; then
-    # Entramos en el directorio
-    cd "$repo" || continue # Sale del bucle si falla el cd
+DIR_REPOS="$HOME/Projects/git-cbk" # Ruta raíz de tus proyectos
 
-    if [ -d ".git" ]; then
-      echo "Actualizando $(basename "$repo")" # 'basename' solo muestra el nombre de la carpeta
-      git pull # ejecutamos el comando git
-    fi
+# Colores para la salida
+GREEN="\033[1;32m"
+RED="\033[1;31m"
+YELLOW="\033[1;33m"
+BLUE="\033[1;34m"
+NC="\033[0m" # Sin color
 
-    if [ $? -eq 0 ]; then
-      echo "✅ $(basename "$DIR_REPOS"): Actualización completada"
-    else
-      echo " $(basename "$DIR_REPOS"): ERROR al hacer pull. Revisa tu trabajo local"
-    fi
-    # Volvemos al directorio raiz para ejecutar la siguiente iteración
-    cd "$DIR_REPOS"
+echo -e "\n${BLUE}🔍 Buscando repositorios Git dentro de:${NC} $DIR_REPOS"
+echo "=============================================================="
+
+# Buscar todos los .git y recorrerlos
+find "$DIR_REPOS" -type d -name ".git" | while read -r gitdir; do
+  repo=$(dirname "$gitdir")
+  repo_name=$(basename "$repo")
+
+  echo -e "\n${YELLOW}📁 Actualizando repositorio:${NC} $repo_name"
+  echo -e "📂 Ruta: $repo"
+
+  cd "$repo" || { echo -e "${RED}⚠️ No se pudo entrar en el directorio${NC}"; continue; }
+
+  # Ejecutar git pull
+  if git pull --quiet; then
+    echo -e "${GREEN}✅ $repo_name: Actualización completada con éxito${NC}"
+  else
+    echo -e "${RED}❌ $repo_name: ERROR al hacer git pull. Revisa tu trabajo local${NC}"
   fi
 done
+
+echo -e "\n${BLUE}🏁 Proceso completado.${NC}\n"
